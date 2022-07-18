@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>Chinese-English Dictionary</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript1.1">
+<!--
+
+function loadPref() 
+{
+var allcookies = document.cookie;
+
+if (allcookies == "") return false;
+
+var start = allcookies.indexOf("worddict=", 0);
+if (start == -1) return false;
+start += 9;
+var end = allcookies.indexOf(';', start);
+if (end == -1) end = allcookies.length;
+
+var cookieval = allcookies.substring(start, end);
+
+var a = cookieval.split('&'); // break into name/value pairs
+var prefhash = new Object();
+for (var i=0; i < a.length; i++) { 
+  a[i] = a[i].split(':');
+  prefhash[a[i][0]] = a[i][1];
+}
+
+document.lookup.searchtype.selectedIndex = prefhash["searchtype.selectedIndex"];
+document.lookup.where.selectedIndex = prefhash["where.selectedIndex"];
+
+if (prefhash["output.checked"] == "true") {
+   document.lookup.output.checked = true;
+}
+else if (prefhash["output.checked"] == "false") {
+   document.lookup.output.checked = false;
+}
+
+
+document.lookup.word.focus();
+
+return true;
+}
+
+
+function savePref() 
+{
+var cookieval = "";
+
+cookieval = "searchtype.selectedIndex:" + document.lookup.searchtype.selectedIndex + '&';
+cookieval += "output.checked:" + document.lookup.output.checked + '&';
+cookieval += "where.selectedIndex:" + document.lookup.where.selectedIndex;
+
+
+var cookie = 'worddict=' + cookieval;
+var today = new Date();
+var expiry = new Date(today.getTime() + 28 * 24 * 60 * 60 * 1000); // plus 28 days
+cookie += "; expires=" + expiry.toGMTString();
+cookie += "; path=/";
+document.cookie = cookie;
+
+}
+
+ -->
+</script>
+</HEAD>
+<BODY onLoad="loadPref();" onUnload="savePref();" BGCOLOR=LIGHTYELLOW> 
+<CENTER>
+<H2>Chinese-English Dictionary</H2>
+
+
+<FORM METHOD=FORM ACTION="/cgi-bin/wordlook.pl" name="lookup">
+<TABLE>
+<TR>
+<TD NOWRAP ALIGN=CENTER>
+Search <INPUT TYPE="text" maxlength=30 name="word"> as
+<SELECT NAME="searchtype">
+<OPTION VALUE="chinese">Chinese (Trad. or Simp)
+<OPTION VALUE="simp">Simp. Chinese
+<OPTION VALUE="trad">Trad. Chinese
+<OPTION VALUE="pinyin">Pinyin
+<OPTION VALUE="english">English
+</SELECT>
+</TD>
+</TR>
+<TR>
+<TD align="center"> Match 
+<SELECT NAME="where">
+<OPTION VALUE="whole">as whole dictionary field
+<OPTION VALUE="start">at start of dictionary field
+<OPTION VALUE="end">at end of dictionary field
+<OPTION VALUE="anywhere">anywhere in dictionary field
+</SELECT>.<BR>
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+<INPUT TYPE="submit" VALUE="Look It Up!">
+</TD>
+</TR>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>
